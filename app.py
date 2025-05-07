@@ -4,7 +4,7 @@ import traceback
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, render_template
 from flask_cors import CORS
 from io import StringIO
 import sys
@@ -20,13 +20,18 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='.')
 CORS(app)
 
 UPLOAD_FOLDER = 'datasets'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 AVAILABLE_DATASETS = ['Iris.csv', 'Titanic-Dataset.csv']
+
+@app.route('/')
+def index():
+    # Serve the index.html file directly
+    return send_from_directory('.', 'index.html')
 
 @app.route('/run', methods=['POST'])
 def run_code():
@@ -109,4 +114,6 @@ def get_plot():
     return send_from_directory('.', 'output.png')
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # Use the PORT environment variable provided by Render
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
