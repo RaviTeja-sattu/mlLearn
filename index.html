@@ -265,7 +265,8 @@
 
       formData.append("code", code);
 
-      fetch("http://127.0.0.1:5000/run", {
+      // Use relative URL instead of hardcoded localhost
+      fetch("/run", {
         method: "POST",
         body: formData
       })
@@ -282,7 +283,8 @@
         }
 
         if (data.plot_generated) {
-          plotImg.src = 'http://127.0.0.1:5000/output.png?' + new Date().getTime();
+          // Use relative URL for the plot image too
+          plotImg.src = '/output.png?' + new Date().getTime();
           plotImg.style.display = 'block';
         } else {
           plotImg.style.display = 'none';
