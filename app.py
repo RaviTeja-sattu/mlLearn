@@ -4,7 +4,7 @@ import traceback
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from flask import Flask, request, jsonify, send_from_directory, render_template
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from io import StringIO
 import sys
@@ -62,7 +62,7 @@ def run_code():
             'np': np,
             'plt': plt,
             'df': df,
-            'dataset_path': dataset_path,  # 🔥 Now dataset_path is available inside user code
+            'dataset_path': dataset_path,
             # sklearn modules
             'train_test_split': train_test_split,
             'LabelEncoder': LabelEncoder,
