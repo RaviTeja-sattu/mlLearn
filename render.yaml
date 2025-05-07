@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: mlearnbox
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app

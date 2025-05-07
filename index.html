@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mlearnbox</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #00c896;
+      --primary-hover: #00b386;
+      --bg: #1f1f1f;
+      --surface: #2a2a2a;
+      --border: #3a3a3a;
+      --text-primary: #f0f0f0;
+      --text-secondary: #b0b0b0;
+      --success: #10b981;
+      --error: #ef4444;
+      --radius: 8px;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.5;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .icon {
+      width: 24px;
+      height: 24px;
+      color: var(--primary);
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-primary);
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    select, input[type="file"] {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 14px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background-color: var(--surface);
+      color: var(--text-primary);
+      margin-bottom: 16px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    select:focus, input[type="file"]:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(0, 200, 150, 0.2);
+    }
+
+    textarea {
+      width: 100%;
+      height: 300px;
+      padding: 16px;
+      font-family: 'Menlo', 'Consolas', monospace;
+      font-size: 14px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background-color: var(--surface);
+      color: var(--text-primary);
+      resize: vertical;
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      background-color: var(--primary);
+      color: #111;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    button:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .output {
+      padding: 16px;
+      background-color: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      font-family: 'Menlo', 'Consolas', monospace;
+      white-space: pre-wrap;
+      min-height: 100px;
+      overflow-x: auto;
+    }
+
+    #plot {
+      max-width: 100%;
+      border-radius: var(--radius);
+      margin-top: 16px;
+      display: none;
+      border: 1px solid var(--border);
+    }
+
+    .success {
+      color: var(--success);
+    }
+
+    .error {
+      color: var(--error);
+    }
+
+    /* Custom file input styling */
+    input[type="file"]::-webkit-file-upload-button {
+      background: var(--primary);
+      color: #111;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      margin-right: 12px;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 7V4H20V7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M9 20H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M12 4V20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <h1>mlearnbox</h1>
+    </header>
+
+    <div class="card">
+      <h2 class="card-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 17V7C3 5.89543 3.89543 5 5 5H11L13 7H19C20.1046 7 21 7.89543 21 9V17C21 18.1046 20.1046 19 19 19H5C3.89543 19 3 18.1046 3 17Z" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        Dataset
+      </h2>
+      <label for="dataset">Select from existing datasets</label>
+      <select id="dataset">
+        <option value="">-- None --</option>
+        <option value="Iris.csv">Iris Dataset</option>
+        <option value="Titanic-Dataset.csv">Titanic Dataset</option>
+      </select>
+      
+      <label for="dataset-upload">Or upload your own CSV</label>
+      <input type="file" id="dataset-upload" accept=".csv">
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 14L10.5 16.5L16 11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        Code Editor
+      </h2>
+      <textarea id="code" placeholder="# Write your Python code here..."></textarea>
+      <button onclick="runCode()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
+        </svg>
+        Run Code
+      </button>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13 17H21M13 12H21M13 7H21M6 17V17.01M6 12V12.01M6 7V7.01M6 17C5.44772 17 5 17.4477 5 18C5 18.5523 5.44772 19 6 19C6.55228 19 7 18.5523 7 18C7 17.4477 6.55228 17 6 17ZM6 12C5.44772 12 5 12.4477 5 13C5 13.5523 5.44772 14 6 14C6.55228 14 7 13.5523 7 13C7 12.4477 6.55228 12 6 12ZM6 7C5.44772 7 5 7.44772 5 8C5 8.55228 5.44772 9 6 9C6.55228 9 7 8.55228 7 8C7 7.44772 6.55228 7 6 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        Output
+      </h2>
+      <div id="output" class="output">Output will appear here...</div>
+      <img id="plot" src="" alt="Generated Plot">
+    </div>
+  </div>
+
+  <script>
+    function runCode() {
+      const code = document.getElementById("code").value;
+      const datasetUpload = document.getElementById("dataset-upload").files[0];
+      const selectedDataset = document.getElementById("dataset").value;
+      const outputDiv = document.getElementById("output");
+
+      outputDiv.textContent = "Running...";
+      outputDiv.className = "output";
+
+      let formData = new FormData();
+      
+      if (datasetUpload) {
+        formData.append("dataset", datasetUpload);
+      } else if (selectedDataset) {
+        formData.append("dataset_name", selectedDataset);
+      } else {
+        outputDiv.textContent = "Please select or upload a dataset first";
+        outputDiv.className = "output error";
+        return;
+      }
+
+      formData.append("code", code);
+
+      fetch("http://127.0.0.1:5000/run", {
+        method: "POST",
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        const plotImg = document.getElementById("plot");
+
+        if (data.output) {
+          outputDiv.textContent = data.output.trim() || "Code executed successfully (no output)";
+          outputDiv.className = data.output.trim() ? "output" : "output success";
+        } else {
+          outputDiv.textContent = "Error: Unable to execute code";
+          outputDiv.className = "output error";
+        }
+
+        if (data.plot_generated) {
+          plotImg.src = 'http://127.0.0.1:5000/output.png?' + new Date().getTime();
+          plotImg.style.display = 'block';
+        } else {
+          plotImg.style.display = 'none';
+        }
+      })
+      .catch(err => {
+        outputDiv.textContent = "Failed to contact server: " + err;
+        outputDiv.className = "output error";
+      });
+    }
+  </script>
+</body>
+</html>
